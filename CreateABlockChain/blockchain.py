@@ -29,9 +29,12 @@ class Block:
 
 class Blockchain:
 
+  INITIAL_HASH = '0'
+  INITIAL_PROOF = 1
+
   def __init__(self):
     self.chain = []
-    self.create_block(proof = 1, previous_hash = '0')
+    self.create_block(proof = self.INITIAL_PROOF, previous_hash = self.INITIAL_HASH)
   # End __init__
 
   def create_block(self, proof, previous_hash):
@@ -125,5 +128,9 @@ def mine_block():
 def get_chain():
   return jsonify(blockchain.as_json(), 200)
 # End get_chain
+
+@app.route('/is_valid_chain', methods = ['GET'])
+def is_valid_chain():
+  return jsonify(blockchain.is_chain_valid(blockchain.chain), 200)
 
 # app.run('0.0.0.0', 5000)
